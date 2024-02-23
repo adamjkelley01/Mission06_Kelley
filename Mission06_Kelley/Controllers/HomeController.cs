@@ -3,6 +3,7 @@ using Microsoft.AspNetCore;
 using Mission06_Kelley.Models;
 using System.Diagnostics;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mission06_Kelley.Controllers
 {
@@ -28,7 +29,9 @@ namespace Mission06_Kelley.Controllers
         [HttpGet]
         public IActionResult MovieEntry()
         {
-            return View();
+            ViewBag.CategoryList = _movieEntryContext.Categories
+                 .ToList();
+            return View("MovieEntry");
         }
         [HttpPost]
         public IActionResult MovieEntry(Application response) 
@@ -38,13 +41,50 @@ namespace Mission06_Kelley.Controllers
             return View("Confirmation", response);
         }
 
-        public IActionResult Movies() 
+        public IActionResult Movies()
         {
-            var applications = _movieEntryContext.Movies
+            var applications = _movieEntryContext.Movies.Include("Category")
                 .OrderBy(x => x.Title).ToList();
             
                 return View(applications);
 
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var recordToEdit = _movieEntryContext.Movies
+                .Single(x => x.MovieId == id);
+
+            ViewBag.CategoryList = _movieEntryContext.Categories
+            .ToList();
+
+            return View("MovieEntry", recordToEdit);
+        }
+        [HttpPost]
+        public IActionResult Edit(Application updatedInfo)
+        {
+            _movieEntryContext.Update(updatedInfo);
+            _movieEntryContext.SaveChanges();
+
+            return RedirectToAction("Movies");
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            var recordToDelete = _movieEntryContext.Movies
+                .Single(x => x.MovieId == id);
+
+            return View(recordToDelete);
+        }
+        [HttpPost]
+        public IActionResult Delete(Application application)
+        {
+            _movieEntryContext.Movies.Remove(application);
+            _movieEntryContext.SaveChanges();
+
+            return RedirectToAction("Movies");
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Mission06_Kelley.Models
     public class Application
     {
         [Key]
-        public int MovieID { get; set; }
+        public int MovieId { get; set; }
         [ForeignKey("CategoryId")]
         public int CategoryId { get; set; }
         public Category Category { get; set; }
@@ -16,7 +16,6 @@ namespace Mission06_Kelley.Models
         public string? Rating { get; set; }
         public bool Edited { get; set; }
         public string? LentTo {  get; set; }
-        [StringLength(25, ErrorMessage = "Notes cannot exceed 25 characters.")]
         public bool CopiedToPlex { get; set; }
         public string? Notes { get; set; }
     }
