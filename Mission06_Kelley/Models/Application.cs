@@ -20,6 +20,5 @@ namespace Mission06_Kelley.Models
         public string? Lent {  get; set; }
         [StringLength(25, ErrorMessage = "Notes cannot exceed 25 characters.")]
         public string? Notes { get; set; }
-
     }
 }
