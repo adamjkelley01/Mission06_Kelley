@@ -8,6 +8,7 @@ namespace Mission06_Kelley.Models
         {
         }
 
-        public DbSet<Application> Applications { get; set; }
+        public DbSet<Application> Movies { get; set; }
+        public DbSet<Category> Categories { get; set; }
     }
 }

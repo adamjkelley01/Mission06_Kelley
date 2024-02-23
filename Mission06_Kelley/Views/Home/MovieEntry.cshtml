@@ -23,13 +23,19 @@
     </select>
     <br />
     <label asp-for="Edited">Edited</label>
-    <select asp-for="Rating">
+    <select asp-for="Edited">
         <option value="false">No</option>
         <option value="true">Yes</option>
     </select>
     <br />
-    <label asp-for="Lent">Lent to</label>
-    <input asp-for="Lent"/>
+    <label asp-for="LentTo">Lent to</label>
+    <input asp-for="LentTo"/>
+    <br />
+    <label asp-for="CopiedToPlex">CopiedToPlex</label>
+    <select asp-for="CopiedToPlex">
+        <option value="false">No</option>
+        <option value="true">Yes</option>
+    </select>
     <br />
     <label asp-for="Notes">Notes</label>
     <input asp-for="Notes"/>

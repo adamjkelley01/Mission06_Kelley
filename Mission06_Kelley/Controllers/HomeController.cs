@@ -33,9 +33,18 @@ namespace Mission06_Kelley.Controllers
         [HttpPost]
         public IActionResult MovieEntry(Application response) 
         {
-            _movieEntryContext.Applications.Add(response); //Add record to database
+            _movieEntryContext.Movies.Add(response); //Add record to database
             _movieEntryContext.SaveChanges();
             return View("Confirmation", response);
+        }
+
+        public IActionResult Movies() 
+        {
+            var applications = _movieEntryContext.Movies
+                .OrderBy(x => x.Title).ToList();
+            
+                return View(applications);
+
         }
     }
 }
