@@ -29,20 +29,33 @@ namespace Mission06_Kelley.Controllers
         [HttpGet]
         public IActionResult MovieEntry()
         {
+
             ViewBag.CategoryList = _movieEntryContext.Categories
                  .ToList();
-            return View("MovieEntry");
+            return View("MovieEntry", new Application());
         }
         [HttpPost]
         public IActionResult MovieEntry(Application response) 
         {
-            _movieEntryContext.Movies.Add(response); //Add record to database
-            _movieEntryContext.SaveChanges();
-            return View("Confirmation", response);
+            if (ModelState.IsValid)
+            {
+                _movieEntryContext.Movies.Add(response); //Add record to database
+                _movieEntryContext.SaveChanges();
+                return View("Confirmation", response);
+            }
+            else //Invalid data
+            {
+
+                ViewBag.CategoryList = _movieEntryContext.Categories
+                    .ToList();;
+                return View(response);
+            }
         }
 
         public IActionResult Movies()
         {
+            ViewBag.CategoryList = _movieEntryContext.Categories
+                .ToList();
             var applications = _movieEntryContext.Movies.Include("Category")
                 .OrderBy(x => x.Title).ToList();
             
@@ -64,10 +77,22 @@ namespace Mission06_Kelley.Controllers
         [HttpPost]
         public IActionResult Edit(Application updatedInfo)
         {
+            if (ModelState.IsValid)
+            {
             _movieEntryContext.Update(updatedInfo);
             _movieEntryContext.SaveChanges();
 
             return RedirectToAction("Movies");
+            }
+
+            else
+            {
+                ViewBag.CategoryList = _movieEntryContext.Categories
+                    .ToList();
+
+                return View("MovieEntry", updatedInfo);
+            }
+
         }
 
         [HttpGet]
